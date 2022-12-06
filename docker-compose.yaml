@@ -1,0 +1,24 @@
+version: '3.9'
+
+services:
+  db:
+    image: postgres:13.2
+    environment:
+      POSTGRES_PASSWORD: password
+      POSTGRES_USER: postgres
+      POSTGRES_DB: twodo-db
+    ports:
+      - '4321:5432'
+  server:
+    build: ./backend/.
+    depends_on:
+      - db
+    ports:
+      - '8000:8080'
+  frontend:
+    build: ./frontend/.
+    depends_on:
+      - server
+      - db
+    ports:
+      - '3000:3000'
